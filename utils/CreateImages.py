@@ -1,8 +1,8 @@
 import cv2
 import numpy as np
 
-data = np.load("../data/training_dataGC.npy", allow_pickle=True)
-targets = np.load("../data/target_dataGC.npy", allow_pickle=True)
+data = np.load("data/training_data.npy", allow_pickle=True)
+targets = np.load("data/target_data.npy", allow_pickle=True)
 
 print(f'Image Data Shape: {data.shape}')
 print(f'targets Shape: {targets.shape}')
@@ -27,13 +27,14 @@ for data in holder_list:
     #print(data[1])
     if data[1] == 'W':
         count_up += 1
-        cv2.imwrite(f"E:/GC/Nothing/H7-u{count_up}.png", data[0]) 
+        cv2.imwrite(f"Images/Nothing/H7-u{count_up}.png", data[0])
+        #cv2.imwrite(f"Images/Bloop{count_up}.png", data[0])
     elif data[1] == 'A':
         count_left += 1
-        cv2.imwrite(f"E:/GC/Left/H7-l{count_left}.png", data[0]) 
+        cv2.imwrite(f"Images/Left/H7-l{count_left}.png", data[0])
     elif data[1] == 'D':
         count_right += 1
-        cv2.imwrite(f"E:/GC/Right/H7-r{count_right}.png", data[0]) 
-    elif data[1] == ' ':
+        cv2.imwrite(f"Images/Right/H7-r{count_right}.png", data[0])
+    elif data[1] == 'Z':
         count_jump += 1
-        cv2.imwrite(f"E:/GC/Jump/H7-j{count_jump}.png", data[0]) 
+        cv2.imwrite(f"Images/Fire/H7-z{count_jump}.png", data[0])
