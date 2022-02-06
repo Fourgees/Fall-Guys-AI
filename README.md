@@ -1,4 +1,4 @@
-<a href="https://www.youtube.com/watch?v=pOnKsGiTVuk&ab_channel=FourgeesGaming target="_blank"><img src="https://i.imgur.com/sG7xxyc.png" title="Clarity Coders YouTube" /></a>
+https://www.youtube.com/watch?v=pOnKsGiTVuk&ab_channel=FourgeesGaming
 # Python / FastAI CNN - Playing any racing game
 > This code was used to gather and process data while playing any racing games or side scroller. Currently working with Diddy Kong Racing.
 > The network was then trained using the FastAI Libary. 
