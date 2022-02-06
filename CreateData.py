@@ -6,18 +6,23 @@ from pynput import keyboard
 
 #obs virtual cam seems to be 2 and webcam is 0
 cap = cv2.VideoCapture(2)
-file_name = "/home/cwy/Code/Fall-Guys-AI-mas/data/training_data.npy"
-file_name2 = "/home/cwy/Code/Fall-Guys-AI-mas/data/target_data.npy"
+file_name = "data/training_data.npy"
+file_name2 = "data/target_data.npy"
+
 
 keys = keyboard.Key
 ###################################
 
 def on_press(key):
     global keys
-    keys = key.char
+    try:
+        keys = key.char
+    except AttributeError:
+        keys = "W"
 
 def on_release(key):
-  pass
+  global keys
+  keys = "W"
 
 
 listener = keyboard.Listener(on_press=on_press,on_release=on_release)
@@ -42,37 +47,52 @@ def save_data(image_data, targets):
     np.save(file_name2, targets)
 
 image_data, targets = get_data()
-while True:
-    print("Waiting...press 'B' to start!")
-    time.sleep(2)
-
-    if keys=="b":
-        print("Starting")
-        break
+print("Press esc to start and h to stop.")
+with keyboard.Events() as events:
+    for event in events:
+        if event.key == keyboard.Key.esc:
+            print("Starting! in 3 seconds")
+            time.sleep(3)
+            break
 
 count = 0
 
 while True:
-    count += 1
-    last_time = time.time()
+
     success, img = cap.read()
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    img = cv2.Canny(img,100,250)
-    #img = cv2.resize(img,(224,224))
+    #img = cv2.Canny(img,100,250)
+    img = img[120:500,50:750]
+    img = cv2.resize(img,(224,224))
+    #cv2.imshow("Video", img)
+    #cv2.waitKey(1)
+    count += 1
+    last_time = time.time()
 
     #convert to numpy array
     img = np.array(img)
     image_data.append(img)
 
-    if keys == 'a' or 'd':
-        print("Appended keys")
-        targets.append(keys)
+    if keys == 'a':
+        targets.append('A')
+        print("A - LEFT")
+    elif keys == 'd':
+        targets.append("D")
+        print("D - Right!")
+    elif keys == 'z':
+        targets.append("Z")
+        print("HONK and FIRE - Z button")
+    else:
+        targets.append("W")
+        print("Nothing! W")
 
 
     #uncomment to show video
-    cv2.imshow("Video",img)
+
     if keys == 'h':
-    #if cv2.waitKey(1) & 0xFF ==ord('h'):
         break
-    print('Loop took {} seconds'.format(time.time()-last_time))
+    #print('Loop took {} seconds'.format(time.time()-last_time))
 save_data(image_data,targets)
+
+
+
