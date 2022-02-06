@@ -4,7 +4,7 @@
 > The network was then trained using the FastAI Libary. 
 
 ## Setup
-- I used OBS virtual cam and with a game playing at a 800 X 600 resolution fed into open cv2 as a webcam input.
+- I used OBS virtual cam (using loopback driver for linux) and with a game window capture playing at a 800 X 600 resolution fed into open cv2 as a webcam input.
 - You can start data collection by running CreateData.py. This works as was tested on Ubuntu
 - Pressing esc will start the screen / key grab. These will be stored in lists until the episode is done. Press h to end and save.
 - Once the episode ( Round ) ends pressing h will stop the screen / key grab process and all data will be moved to a numpy array.
