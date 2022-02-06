@@ -1,18 +1,32 @@
-import numpy as np
 import cv2
+import numpy as np
 import time
 import os
+from pynput import keyboard
 
-from utils.grabscreen import grab_screen
-from utils.getkeys import key_check
+#obs virtual cam seems to be 2 and webcam is 0
+cap = cv2.VideoCapture(2)
+file_name = "/home/cwy/Code/Fall-Guys-AI-mas/data/training_data.npy"
+file_name2 = "/home/cwy/Code/Fall-Guys-AI-mas/data/target_data.npy"
+
+keys = keyboard.Key
+###################################
+
+def on_press(key):
+    global keys
+    keys = key.char
+
+def on_release(key):
+  pass
 
 
-file_name = "C:/Users/programmer/Desktop/FallGuys/data/training_data.npy"
-file_name2 = "C:/Users/programmer/Desktop/FallGuys/data/target_data.npy"
+listener = keyboard.Listener(on_press=on_press,on_release=on_release)
+listener.start()
+
+##############################
 
 
 def get_data():
-
     if os.path.isfile(file_name):
         print('File exists, loading previous data!')
         image_data = list(np.load(file_name, allow_pickle=True))
@@ -23,45 +37,42 @@ def get_data():
         targets = []
     return image_data, targets
 
-
 def save_data(image_data, targets):
-    np.save(file_name, image_data)
+    np.save(file_name,image_data)
     np.save(file_name2, targets)
-
 
 image_data, targets = get_data()
 while True:
-    keys = key_check()
-    print("waiting press B to start")
-    if keys == "B":
+    print("Waiting...press 'B' to start!")
+    time.sleep(2)
+
+    if keys=="b":
         print("Starting")
         break
 
-
 count = 0
+
 while True:
-    count +=1
+    count += 1
     last_time = time.time()
-    image = grab_screen(region=(50, 100, 799, 449))
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    success, img = cap.read()
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    img = cv2.Canny(img,100,250)
+    #img = cv2.resize(img,(224,224))
 
-    image = cv2.Canny(image, threshold1=119, threshold2=250)
+    #convert to numpy array
+    img = np.array(img)
+    image_data.append(img)
 
-    image = cv2.resize(image, (224, 224))
+    if keys == 'a' or 'd':
+        print("Appended keys")
+        targets.append(keys)
 
-    # Debug line to show image
-    cv2.imshow("AI Peak", image)
-    cv2.waitKey(1)
 
-    # Convert to numpy array
-    image = np.array(image)
-    image_data.append(image)
-
-    keys = key_check()
-    targets.append(keys)
-    if keys == "H":
+    #uncomment to show video
+    cv2.imshow("Video",img)
+    if keys == 'h':
+    #if cv2.waitKey(1) & 0xFF ==ord('h'):
         break
-
-    print('loop took {} seconds'.format(time.time()-last_time))
-
-save_data(image_data, targets)
+    print('Loop took {} seconds'.format(time.time()-last_time))
+save_data(image_data,targets)
