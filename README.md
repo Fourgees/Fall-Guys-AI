@@ -1,7 +1,7 @@
 https://www.youtube.com/watch?v=pOnKsGiTVuk&ab_channel=FourgeesGaming
 # Python / FastAI CNN - Playing any racing game
 > This code was used to gather and process data while playing any racing games or side scroller. Currently working with Diddy Kong Racing.
-> The network was then trained using the FastAI Libary. 
+> The network was then trained using the FastAI Libary. The original scope of this project was to fork the code from windows to linux.
 
 ## Setup
 - I used OBS virtual cam (using loopback driver for linux) and with a game window capture playing at a 800 X 600 resolution fed into open cv2 as a webcam input.
