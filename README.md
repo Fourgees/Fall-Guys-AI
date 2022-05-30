@@ -5,7 +5,7 @@ https://www.youtube.com/watch?v=pOnKsGiTVuk&ab_channel=FourgeesGaming
 
 ## Setup
 - I used OBS virtual cam (using loopback driver for linux) and with a game window capture playing at a 800 X 600 resolution fed into open cv2 as a webcam input.
-- You can start data collection by running CreateData.py. This works as was tested on Ubuntu
+- You can start data collection by running CreateData.py. This code was tested on Ubuntu 20.04.
 - Pressing esc will start the screen / key grab. These will be stored in lists until the episode is done. Press h to end and save.
 - Once the episode ( Round ) ends pressing h will stop the screen / key grab process and all data will be moved to a numpy array.
 - Then I used a script in util folder called CreateImages.py to put then onto a disk drive in folders corresponding to their actions.
@@ -20,7 +20,7 @@ https://www.youtube.com/watch?v=pOnKsGiTVuk&ab_channel=FourgeesGaming
 - You will have to load in the pkl created from training.
 
 ## Inputs (Observations)
-- Uses inputs to the nural network (Observations) of pixes in the game.
+- Uses inputs to the nural network (Observations) of pixels in the game.
 - 224 X 224
 - Line detection (might change it to just b&w, testing this currently)
 
